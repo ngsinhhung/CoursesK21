@@ -132,4 +132,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = '%s/courses/static/' %BASE_DIR
 
-CKEDITOR_UPLOAD_PATH = "img/lessons"
+CKEDITOR_UPLOAD_PATH = "ckeditor/image"
