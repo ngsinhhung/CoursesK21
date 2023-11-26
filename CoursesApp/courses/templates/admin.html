@@ -9,4 +9,42 @@
     </li>
     {% endfor %}
 </ul>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    let labels = []
+    let values = []
+
+    {% for c in course_stats %}
+        values.push({{ c.lesson_count }});
+        labels.push(`{{ c.subject }}`);
+    {% endfor %}
+    window.onload = () => {
+
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "# So bai",
+                    data: values,
+                    borderWidth: 0.5,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+        });
+    }
+</script>
 {% endblock %}

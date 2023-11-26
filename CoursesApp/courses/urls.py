@@ -1,6 +1,12 @@
-from .admin import admin_site
-from django.urls import path
+from django.urls import path, include
+from  . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('category', views.CategoryViewSet)
+router.register('courses', views.CourseViewSet)
+
 
 urlpatterns = [
-    path('admin/', admin_site.urls)
+    path('', include(router.urls))
 ]

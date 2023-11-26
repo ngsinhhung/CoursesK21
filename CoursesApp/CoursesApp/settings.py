@@ -40,8 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
+    'rest_framework',
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 2
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
