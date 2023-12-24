@@ -1,19 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
-
+from cloudinary.models import CloudinaryField
 
 
 
 # Create your models here.
 class User(AbstractUser):
-    pass
+    avatar_user = CloudinaryField('avatar', null = True)
 
 
 # đây là lớp trừu tượng
 class BaseModel(models.Model):
-    create_date = models.DateField(auto_now_add=True, null=True)
-    update_date = models.DateField(auto_now_add=True, null=True)
+    created_date = models.DateField(auto_now_add=True, null=True)
+    updated_date = models.DateField(auto_now_add=True, null=True)
     active = models.BooleanField(default=False)
     
     class Meta:
@@ -57,3 +57,4 @@ class Tag(BaseModel):
 
     def __str__(self):
         return self.name
+

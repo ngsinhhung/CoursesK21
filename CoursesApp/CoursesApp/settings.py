@@ -12,6 +12,18 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+  cloud_name = "dmdljcwau",
+  api_key = "751729637915529",
+  api_secret = "-9greGmb76IjiPCDjePMEPuuz1I",
+  secure = True
+)
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,12 +53,18 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'rest_framework',
-
+    'rest_framework_swagger',
+    'cloudinary',
+    'oauth2_provider',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 2
+    'PAGE_SIZE': 2,
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+            'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
 }
 
 MIDDLEWARE = [
@@ -139,3 +157,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = '%s/courses/static/' %BASE_DIR
 
 CKEDITOR_UPLOAD_PATH = "ckeditor/image"
+
+# CLIENT_ID = WRLlsYqOkKOhQ5mKp4jUqGvwqBT1f0vrWPiuX7Zd
+# Client secret = hfZTxgXAYpFwba9MZ0lNR3lKsBePIw51cmybz0vleGSWgztGT74L6LC0NXF7ZrA8iDVXGuY7klpIGcmrXDh52W44OpXRtmuLRVnuy6llhkysOhRXWLxnQWWaOMZeAczA
