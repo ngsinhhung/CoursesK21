@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import Course, Category, Tag, Lesson, User
+from .models import Course, Category, Tag, Lesson, User, Comment
 
 class TagSerializers(ModelSerializer):
     class Meta:
@@ -17,7 +17,7 @@ class CourseSerializers(ModelSerializer):
     image = serializers.SerializerMethodField(source='image')
     class Meta:
         model = Course
-        fields = ['id', 'subject', 'image', 'create_date', 'category', 'tags']
+        fields = ['id', 'subject', 'image', 'created_date', 'updated_date', 'category', 'tags']
 
 
     def get_image(self, course):
@@ -32,6 +32,17 @@ class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['id', 'subject', 'image', 'tags', 'created_date', 'updated_date', 'content']
+
+class LessonDetailSerializer(LessonSerializer):
+    liked = serializers.SerializerMethodField()
+
+    def get_liked(self, lesson):
+        request = self.context.get('request')
+        if request.user.is_authenticated:
+            return lesson.like_set.filter(active=True).exists()
+    class Meta:
+        model = Lesson
+        fields = LessonSerializer.Meta.fields + ['liked']
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -49,3 +60,9 @@ class UserSerializer(ModelSerializer):
         user.set_password(data_user['password'])
         user.save()
         return user
+
+class CommentSerializer(ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'user']

@@ -66,3 +66,8 @@ admin_site.register(Category, CategoryAdmin)
 admin_site.register(Course, CourseAdmin)
 admin_site.register(Tag)
 admin_site.register(Lesson)
+
+admin.site.register(Course, CourseAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag)
+admin.site.register(Lesson)

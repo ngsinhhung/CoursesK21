@@ -48,6 +48,9 @@ class Lesson(BaseModel):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='my_lesson')
     tags = models.ManyToManyField('Tag', blank=True, related_name='lessons')
 
+    def __str__(self):
+        return self.subject
+
     class Meta:
         unique_together = ('subject', 'course')
 
@@ -57,4 +60,19 @@ class Tag(BaseModel):
 
     def __str__(self):
         return self.name
+class Interaction(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=False)
+    class Meta:
+        abstract = True
 
+class Comment(Interaction):
+    content = models.CharField(max_length=255, null = True)
+
+class Like(Interaction):
+    active = models.BooleanField(default = True);
+    class Meta:
+        unique_together = ['user', 'lesson']
+
+class Rating(Interaction):
+    rating = models.SmallIntegerField(default=0)

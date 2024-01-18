@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'cloudinary',
     'oauth2_provider',
+    'drf_yasg',
+    'debug_toolbar',
 ]
 
 REST_FRAMEWORK = {
@@ -75,6 +77,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'CoursesApp.urls'
@@ -147,7 +154,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -158,5 +165,6 @@ MEDIA_ROOT = '%s/courses/static/' %BASE_DIR
 
 CKEDITOR_UPLOAD_PATH = "ckeditor/image"
 
-# CLIENT_ID = WRLlsYqOkKOhQ5mKp4jUqGvwqBT1f0vrWPiuX7Zd
-# Client secret = hfZTxgXAYpFwba9MZ0lNR3lKsBePIw51cmybz0vleGSWgztGT74L6LC0NXF7ZrA8iDVXGuY7klpIGcmrXDh52W44OpXRtmuLRVnuy6llhkysOhRXWLxnQWWaOMZeAczA
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+}
