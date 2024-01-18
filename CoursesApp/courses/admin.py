@@ -1,11 +1,33 @@
 from django.contrib import admin
-from django.forms.widgets import Media
 from django import forms
+from django.db.models import Count
+from django.template.response import TemplateResponse
+from django.urls import path
+
 from .models import Category, Course, Tag, Lesson
 from django.utils.html import mark_safe
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 # Register your models here.
 
+class CourseAppAdminSite(admin.AdminSite):
+    site_header = 'Hệ thống khóa học trực tuyến'
+
+    def get_urls(self):
+        return [
+            path('course-stats/', self.stats_view)
+        ] + super().get_urls()
+
+    def stats_view(self,request):
+        count = Course.objects.filter(active = True).count()
+        stats = Course.objects\
+            .annotate(lesson_count=Count('my_lesson'))\
+            .values('id', 'subject', 'lesson_count')
+        return TemplateResponse(request, 'admin.html', {
+            'course_count': count,
+            'course_stats': stats,
+        })
+
+admin_site = CourseAppAdminSite(name="myadmin")
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["id", "name"]
@@ -40,7 +62,12 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(Category, CategoryAdmin)
+admin_site.register(Category, CategoryAdmin)
+admin_site.register(Course, CourseAdmin)
+admin_site.register(Tag)
+admin_site.register(Lesson)
+
 admin.site.register(Course, CourseAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag)
 admin.site.register(Lesson)
